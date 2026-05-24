@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+        nav { background: #1a1a2e; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px; }
+        nav .logo { color: white; font-size: 24px; font-weight: bold; text-decoration: none; }
+        nav .logo span { color: #e94560; }
+        nav .nav-links a { color: #ccc; text-decoration: none; margin-left: 20px; }
+        nav .nav-links a:hover { color: white; }
+        nav .carrinho-btn { background: #e94560; color: white; padding: 8px 16px; border-radius: 20px; text-decoration: none; }
+        nav form { display: inline; }
+        nav input { padding: 8px 15px; border-radius: 20px; border: none; outline: none; }
+        nav button { background: #e94560; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-left: 5px; }
+        .hero { background: linear-gradient(135deg, #1a1a2e, #16213e); color: white; padding: 80px 30px; text-align: center; }
+        .hero h1 { font-size: 48px; margin-bottom: 15px; }
+        .hero h1 span { color: #e94560; }
+        .hero p { font-size: 18px; color: #aaa; margin-bottom: 30px; }
+        .hero a { background: #e94560; color: white; padding: 15px 40px; border-radius: 30px; text-decoration: none; font-size: 18px; }
+        .flash { background: #27ae60; color: white; padding: 10px; text-align: center; }
+        .section { padding: 50px 30px; max-width: 1200px; margin: 0 auto; }
+        .section h2 { font-size: 28px; margin-bottom: 30px; color: #1a1a2e; }
+        .produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .produto { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); transition: transform 0.2s; }
+        .produto:hover { transform: translateY(-5px); }
+        .produto .emoji { font-size: 60px; margin-bottom: 10px; }
+        .produto h3 { color: #1a1a2e; margin-bottom: 5px; }
+        .produto .categoria { color: #999; font-size: 12px; margin-bottom: 10px; }
+        .produto .preco { color: #e94560; font-size: 22px; font-weight: bold; margin-bottom: 15px; }
+        .produto a.btn { display: block; background: #1a1a2e; color: white; padding: 10px; border-radius: 10px; text-decoration: none; }
+        .produto a.btn:hover { background: #e94560; }
+        footer { background: #1a1a2e; color: #aaa; text-align: center; padding: 30px; margin-top: 50px; }
+    </style>
+</head>
+<body>
+<nav>
+    <a class="logo" href="/">Shop<span>Pro</span></a>
+    <form action="/pesquisa" method="GET">
+        <input type="text" name="q" placeholder="Pesquisar produtos...">
+        <button type="submit">🔍</button>
+    </form>
+    <div class="nav-links">
+        {% if utilizador %}
+            <span style="color:white">Olá, {{ utilizador }}!</span>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+            <a href="/registo">Registo</a>
+        {% endif %}
+        <a class="carrinho-btn" href="/carrinho">🛒 {{ total_carrinho }}</a>
+    </div>
+</nav>
+
+{% with messages = get_flashed_messages() %}
+    {% if messages %}
+        {% for m in messages %}
+            <div class="flash">{{ m }}</div>
+        {% endfor %}
+    {% endif %}
+{% endwith %}
+
+<div class="hero">
+    <h1>A melhor loja <span>online</span></h1>
+    <p>Produtos de qualidade com os melhores preços</p>
+    <a href="#produtos">Ver produtos</a>
+</div>
+
+<div class="section" id="produtos">
+    <h2>⭐ Destaques</h2>
+    <div class="produtos">
+        {% for p in destaques %}
+        <div class="produto">
+            <div class="emoji">{{ p.emoji }}</div>
+            <h3>{{ p.nome }}</h3>
+            <p class="categoria">{{ p.categoria }}</p>
+            <p class="preco">{{ p.preco }}€</p>
+            <a class="btn" href="/adicionar/{{ p.id }}">Adicionar ao carrinho</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<div class="section">
+    <h2>🛍️ Todos os produtos</h2>
+    <div class="produtos">
+        {% for p in produtos %}
+        <div class="produto">
+            <div class="emoji">{{ p.emoji }}</div>
+            <h3>{{ p.nome }}</h3>
+            <p class="categoria">{{ p.categoria }}</p>
+            <p class="preco">{{ p.preco }}€</p>
+            <a class="btn" href="/adicionar/{{ p.id }}">Adicionar ao carrinho</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<footer>
+    <p>© 2026 ShopPro — Todos os direitos reservados</p>
+</footer>
+</body>
+</html>

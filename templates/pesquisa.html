@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pesquisa - ShopPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+        nav { background: #1a1a2e; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { color: white; font-size: 24px; font-weight: bold; text-decoration: none; }
+        nav .logo span { color: #e94560; }
+        nav a { color: #ccc; text-decoration: none; margin-left: 20px; }
+        nav form { display: inline; }
+        nav input { padding: 8px 15px; border-radius: 20px; border: none; outline: none; }
+        nav button { background: #e94560; color: white; border: none; padding: 8px 15px; border-radius: 20px; cursor: pointer; margin-left: 5px; }
+        .container { max-width: 1100px; margin: 40px auto; padding: 0 20px; }
+        h1 { color: #1a1a2e; margin-bottom: 10px; }
+        .subtitulo { color: #999; margin-bottom: 30px; }
+        .produtos { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 20px; }
+        .produto { background: white; border-radius: 15px; padding: 20px; text-align: center; box-shadow: 0 2px 10px rgba(0,0,0,0.08); }
+        .produto .emoji { font-size: 60px; margin-bottom: 10px; }
+        .produto h3 { color: #1a1a2e; margin-bottom: 5px; }
+        .produto .categoria { color: #999; font-size: 12px; margin-bottom: 10px; }
+        .produto .preco { color: #e94560; font-size: 22px; font-weight: bold; margin-bottom: 15px; }
+        .produto a.btn { display: block; background: #1a1a2e; color: white; padding: 10px; border-radius: 10px; text-decoration: none; }
+        .produto a.btn:hover { background: #e94560; }
+        .vazio { text-align: center; padding: 60px; color: #999; }
+    </style>
+</head>
+<body>
+<nav>
+    <a class="logo" href="/">Shop<span>Pro</span></a>
+    <form action="/pesquisa" method="GET">
+        <input type="text" name="q" value="{{ query }}" placeholder="Pesquisar...">
+        <button type="submit">🔍</button>
+    </form>
+    <div>
+        {% if utilizador %}
+            <span style="color:white">{{ utilizador }}</span>
+            <a href="/logout">Logout</a>
+        {% else %}
+            <a href="/login">Login</a>
+        {% endif %}
+        <a style="background:#e94560;padding:8px 16px;border-radius:20px" href="/carrinho">🛒 {{ total_carrinho }}</a>
+    </div>
+</nav>
+<div class="container">
+    <h1>🔍 Resultados para "{{ query }}"</h1>
+    <p class="subtitulo">{{ produtos|length }} produto(s) encontrado(s)</p>
+    {% if produtos %}
+    <div class="produtos">
+        {% for p in produtos %}
+        <div class="produto">
+            <div class="emoji">{{ p.emoji }}</div>
+            <h3>{{ p.nome }}</h3>
+            <p class="categoria">{{ p.categoria }}</p>
+            <p class="preco">{{ p.preco }}€</p>
+            <a class="btn" href="/adicionar/{{ p.id }}">Adicionar ao carrinho</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <div class="vazio">
+        <p style="font-size:60px">😕</p>
+        <p style="font-size:20px;margin:20px 0">Nenhum produto encontrado!</p>
+        <a href="/" style="color:#e94560">← Voltar à loja</a>
+    </div>
+    {% endif %}
+</div>
+</body>
+</html>

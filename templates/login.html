@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - ShopPro</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', sans-serif; background: #f8f9fa; }
+        nav { background: #1a1a2e; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; }
+        nav .logo { color: white; font-size: 24px; font-weight: bold; text-decoration: none; }
+        nav .logo span { color: #e94560; }
+        .container { max-width: 400px; margin: 80px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 15px; padding: 40px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); }
+        h1 { color: #1a1a2e; text-align: center; margin-bottom: 30px; font-size: 28px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; color: #555; margin-bottom: 5px; font-size: 14px; }
+        input { width: 100%; padding: 12px 15px; border: 2px solid #eee; border-radius: 8px; font-size: 16px; outline: none; transition: border 0.3s; }
+        input:focus { border-color: #e94560; }
+        button { width: 100%; padding: 14px; background: #e94560; color: white; border: none; border-radius: 8px; font-size: 16px; cursor: pointer; font-weight: bold; }
+        button:hover { background: #c73652; }
+        .links { text-align: center; margin-top: 20px; }
+        .links a { color: #e94560; text-decoration: none; }
+        .erro { background: #ffe0e0; color: #e94560; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+        .sucesso { background: #e0ffe0; color: #27ae60; padding: 12px; border-radius: 8px; margin-bottom: 20px; text-align: center; }
+    </style>
+</head>
+<body>
+<nav>
+    <a class="logo" href="/">Shop<span>Pro</span></a>
+</nav>
+<div class="container">
+    <div class="card">
+        <h1>🔑 Login</h1>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for m in messages %}
+                    <div class="erro">{{ m }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+        <form method="POST">
+            <div class="form-group">
+                <label>Email</label>
+                <input type="email" name="email" placeholder="o-teu@email.com" required>
+            </div>
+            <div class="form-group">
+                <label>Password</label>
+                <input type="password" name="password" placeholder="••••••••" required>
+            </div>
+            <button type="submit">Entrar</button>
+        </form>
+        <div class="links">
+            <p>Não tens conta? <a href="/registo">Regista-te aqui</a></p>
+            <br>
+            <a href="/">← Voltar à loja</a>
+        </div>
+    </div>
+</div>
+</body>
+</html>
